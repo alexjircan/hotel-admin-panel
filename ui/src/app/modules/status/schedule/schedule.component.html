@@ -1,0 +1,107 @@
+<div class="px-3">
+    <div class="row text-center">
+        <div class="col-md-4">
+        
+        </div>
+        <div class="col-md-4 align-middle">
+            <h3 class="p-1 m-auto">{{ viewDate | calendarDate:(view + 'ViewTitle'):'ro' | titlecase }}</h3>
+        </div>
+        <div class="col-md-4 btn-group btn-group-sm">
+            <div
+                class="btn btn-dark"
+                mwlCalendarPreviousView
+                [view]="view"
+                [(viewDate)]="viewDate"
+                (viewDateChange)="closeOpenMonthViewDay()"
+            >
+            <i class="fa-solid fa-arrow-left"></i>
+            </div>
+            <div
+                class="btn btn-outline-dark"
+                mwlCalendarToday
+                [(viewDate)]="viewDate"
+            >
+                Ast&#259;zi
+            </div>
+            <div
+                class="btn btn-dark"
+                mwlCalendarNextView
+                [view]="view"
+                [(viewDate)]="viewDate"
+                (viewDateChange)="closeOpenMonthViewDay()"
+            >
+            <i class="fa-solid fa-arrow-right"></i>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #loading>
+        <div class="text-center p-5">
+            <i class="fas fa-spin fa-spinner fa-5x"></i> <br />
+        </div>
+    </ng-template>
+
+    <div *ngIf="events$ | async; else loading; let events">
+    <mwl-calendar-month-view
+        [viewDate]="viewDate"
+        [events]="events"
+        [refresh]="refresh"
+        [locale]="locale"
+        [activeDayIsOpen]="activeDayIsOpen"
+        [weekStartsOn]="weekStartsOn"
+        [weekendDays]="weekendDays"
+        (dayClicked)="dayClicked($event.day)"
+    >
+    </mwl-calendar-month-view>
+    <table class="table table-hover table-sm table-bordered align-middle text-center mt-4 mb-2">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Titlu</th>
+                <th scope="col">De la</th>
+                <th scope="col">Pana la</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let event of events">
+                <td>
+                    <input
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="event.title"
+                        (change)="refreshView(); updateEvent(event);"
+                    />
+                </td>
+                <td>
+                    <input
+                        type="date"
+                        class="form-control"
+                        [ngModel]="event.start | date: 'yyyy-MM-dd'" 
+                        (ngModelChange)="event.start=toDate($event); updateEvent(event); refreshView()"
+                        dateFormat="Y-m-dTH:i"
+                    />
+                </td>
+                <td>
+                    <input
+                        type="date"
+                        class="form-control"
+                        [ngModel]="event.end | date: 'yyyy-MM-dd'" 
+                        (ngModelChange)="event.end=toDate($event); updateEvent(event); refreshView()"
+                        dateFormat="Y-m-dTH:i"
+                    />
+                </td>
+                <td>
+                    <button class="btn btn-danger" (click)="deleteEvent(events, event)">
+                        <i class="fa-solid fa-minus"></i>
+                        &#350;TERGE
+                    </button>
+                </td>
+            </tr>
+        </tbody>  
+    </table>
+    <button class="btn btn-success float-end" (click)="createEvent(events)">
+        <i class="fa-solid fa-plus"></i>
+        Adaug&#259;
+    </button>
+    </div>
+</div>

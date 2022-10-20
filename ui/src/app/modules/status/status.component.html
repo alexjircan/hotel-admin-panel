@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-sm-6">
+    <h3 class="primary-text m-0">
+        <span class="d-inline">Admin</span>
+    </h3>
+  </div>
+</div>
+
+<div class="accessory-box">
+  <ng-template #loading>
+    <div class="d-flex flex-row justify-content-center align-items-center h-100 p-1">
+        <i class="fas fa-spin fa-spinner fa-5x"></i> <br />
+    </div>
+  </ng-template>
+  <div class="d-flex flex-row justify-content-center align-items-center h-100 p-1"  *ngIf="temperature$ | async; else loading; let temperature">
+    <div>
+      <i class="fa-solid fa-temperature-three-quarters fa-5x p-2" [style]="$service.getColor(temperature)"></i>
+    </div>
+    <div class="accessory-label" [innerText]="(temperature)+'°'">
+    </div>
+  </div>
+</div>
+<div class="row">
+  <app-schedule></app-schedule>
+</div>

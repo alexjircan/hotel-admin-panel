@@ -1,0 +1,35 @@
+module.exports = {
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    project: 'tsconfig.json',
+    tsconfigRootDir : __dirname, 
+    sourceType: 'module',
+  },
+  plugins: ['@typescript-eslint/eslint-plugin'],
+  extends: [
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+  ],
+  root: true,
+  env: {
+    node: true,
+    jest: true,
+  },
+  ignorePatterns: ['.eslintrc.js'],
+  rules: {
+    'quotes': ['error', 'single'],
+    'comma-dangle': ['error', 'only-multiline'],
+    'no-multiple-empty-lines': ['warn', { max: 1, maxEOF: 0 }],
+    'eol-last': ['error', 'always'],
+    'space-before-function-paren': ['error', { named: 'never' }],
+    '@typescript-eslint/lines-between-class-members': ['warn', 'always', { exceptAfterOverload: true, exceptAfterSingleLine: true }],
+    '@typescript-eslint/interface-name-prefix': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    'noImplicitAny': 'false',
+    '@typescript-eslint/semi': ['warn'],
+    '@typescript-eslint/member-delimiter-style': ['warn'],
+    '@typescript-eslint/no-unused-vars': ['warn', { args: 'none', vars: 'local', varsIgnorePattern: 'key' }],
+  },
+};
